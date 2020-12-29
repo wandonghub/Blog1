@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	   xmlns:jee="http://www.springframework.org/schema/jee"
+	   xmlns:tx="http://www.springframework.org/schema/tx"
+	   xmlns:aop="http://www.springframework.org/schema/aop"
+	   xmlns:mvc="http://www.springframework.org/schema/mvc"
+	   xmlns:util="http://www.springframework.org/schema/util"
+	   xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	   xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
+		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+<!--	SpringMVC配置文件-->
+	<context:component-scan base-package="com.zzcedu.blog"/>
+<!--		只扫描控制器-->
+<!--		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>-->
+<!--	</context:component-scan>-->
+<!--	视图解析器-->
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/"/>
+		<property name="suffix" value=".jsp"/>
+	</bean>
+<!--	两个标准配置	-->
+<!--	能支持SpringMVC更高级的一些功能  如JSR303校验，快捷的Ajax    最重要的是映射请求-->
+	<mvc:annotation-driven/>
+<!--	将SpringMVC不能处理的请求交给TomCat-->
+<!--	<mvc:default-servlet-handler/>-->
+<!--	================数据源的配置-->
+	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+		<property name="username" value="root"/>
+		<property name="password" value="123456"/>
+		<property name="url" value="jdbc:mysql:///blog"/>
+	</bean>
+
+
+<!--	=============================Mybatis 配置文件-->
+	<bean class="org.mybatis.spring.SqlSessionFactoryBean">
+<!--		指定Mybatis mepper文件的位置-->
+<!--		<property name="mapperLocations" value="classpath:"/>-->
+		<property name="dataSource" ref="dataSource"/>
+		<!--		指定Mybatis全局配置文件的位置-->
+<!--		<property name="configLocation" value="classpath:conf/*.xml"/>-->
+	</bean>
+<!-- 配置扫描器	将Mybatis接口的实现加入到ioc容器中-->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+<!--		扫描所有dao接口的实现，加入到ioc容器中-->
+		<property name="basePackage" value="com.zzcedu.blog.dao"/>
+	</bean>
+
+<!--	=================================事务控制配置文件-->
+<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+	<property name="dataSource" ref="dataSource"/>
+</bean>
+	<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
+<aop:aspectj-autoproxy proxy-target-class="true"/>
+</beans>
+
+
+
+
+
+
+
+
+
+
