@@ -21,8 +21,12 @@ public class NoteUtil {
     public static String md5(String src) throws NoSuchAlgorithmException {
         MessageDigest md5 = MessageDigest.getInstance("MD5");
         byte[] digest = md5.digest(src.getBytes());
-        String s = Base64.byteArrayToAltBase64(digest);
+        String s = Base64.byteArrayToBase64(digest);
         return s;
     }
 
+    public static void main(String[] args) throws NoSuchAlgorithmException {
+        System.out.println(getUUID());
+        System.out.println(md5("123456"));
+    }
 }
