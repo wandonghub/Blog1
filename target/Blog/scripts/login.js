@@ -36,8 +36,8 @@ function login() {
                     $("#password_span").html(result.msg);
                 }else {
                     //把用户信息放到cookie中
-                    addCookie("uid",result.data.cn_user_id,2);
-                    addCookie("uname",result.data.cn_user_name,2);
+                    addCookie("uid" ,result.data.cn_user_id,2);
+                    addCookie("uname" ,result.data.cn_user_name,2);
                     window.location.href='edit.html';
                 }
             },
@@ -48,6 +48,7 @@ function login() {
     }
 
 }
+//注册
 function regist() {
     //1.获取请求参数
     var username = $("#regist_username").val().trim();
