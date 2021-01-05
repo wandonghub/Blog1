@@ -6,5 +6,10 @@ public interface NoteService {
     JsonResult loadNotes(String bookId);
     JsonResult loadNote(String noteId);
 
-    JsonResult updateNote(String title, String noteId, String body);
+    JsonResult updateNote(String title, String userId,String body);
+
+    JsonResult addNote(String noteTitle,String userId ,String bookId);
+
+    JsonResult deleteNote(String noteId);
+
 }
