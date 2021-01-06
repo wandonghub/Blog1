@@ -343,13 +343,19 @@
 			//9.创建笔记的确定按钮的绑定事件
 			$("#can").on("click","#sure_addnote",addNote);
 			//10.弹出笔记菜单                类选择器
-			$("#note_ul").on("click",".btn_slide_down",showMenu)
+			$("#note_ul").on("click",".btn_slide_down",showMenu);
 			//11.点击页面隐藏笔记菜单
 			$("body").click(hideMenu);
 			//12.删除笔记弹窗的弹出
 			$("#note_ul").on("click",".btn_delete",alertDeleteNoteWindow);
 			//13.删除弹窗确定按钮的绑定
 			$("#can").on("click","#sure_deletenote",deleteNote);
+			//14.移动笔记弹窗的弹出
+			$("#note_ul").on("click",".btn_move",alertMoveNoteWindow);
+			//15.移动弹窗确定按钮的绑定
+			$("#can").on("click","#sure_movenote",moveNote);
+			//16.点击分享时绑定点击事件
+			$("#note_ul").on("click",".btn_share",shareNote);
 		});
 	</script>
 

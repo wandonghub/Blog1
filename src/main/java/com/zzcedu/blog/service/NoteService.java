@@ -12,4 +12,8 @@ public interface NoteService {
 
     JsonResult deleteNote(String noteId);
 
+    JsonResult moveNote(String noteId, String bookId);
+
+    JsonResult shareNote(String noteId);
+
 }
