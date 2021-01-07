@@ -16,4 +16,7 @@ public interface NoteService {
 
     JsonResult shareNote(String noteId);
 
+    JsonResult searchShareNote(String keyword, Integer page);
+
+    JsonResult findShareId(String shareId);
 }

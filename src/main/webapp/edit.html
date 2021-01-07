@@ -17,7 +17,7 @@
         <link rel="stylesheet" href="styles/prettify.css"/>
 		<!-- Ueditor编辑器CSS -->
 		<link href="styles/umeditor.min.css" type="text/css" rel="stylesheet">
-		
+
    </head>
     <body class="animated fadeIn">
         <header class="header">
@@ -288,7 +288,7 @@
 				$('#myEditor').width(width-20);
 			};
 		</script>
-		
+
         <script type="text/javascript" src="scripts/jquery.min.js"></script>
 		<script type="text/javascript"src="scripts/basevalue.js"></script>
 		<script type="text/javascript" src="scripts/cookie_util.js"></script>
@@ -320,7 +320,8 @@
 
 
 	<script>
-
+		var keyword;
+		var page;
 		//页面加载时间
 		$(function () {
 			//加载用户笔记
@@ -356,8 +357,60 @@
 			$("#can").on("click","#sure_movenote",moveNote);
 			//16.点击分享时绑定点击事件
 			$("#note_ul").on("click",".btn_share",shareNote);
+			//17.搜索分享笔记
+			$("#search_note").keydown(function (event) {
+				//获取事件源对应的key编号
+				var code=event.keyCode;
+				//enter建对应的key编号对应的是13
+				if (code==13){
+					//获取请求
+					keyword = $("#search_note").val().trim();
+					//参数校验
+					//发送ajax
+					page=1;
+					//按下enter键键清空 pc_part_6 ul
+					$("#pc_part_6 ul").empty();
+					searchSharePage(keyword,page);
+				}
+			})
+			//18.绑定更多按钮 page+1
+			$("#more_note").click(function () {
+				page=page+1
+				searchSharePage(keyword,page);
+			})
+			//19.查询搜索笔记列表的笔记信息
+			$("#pc_part_6 ul").on("click","li",function () {
+				$("li a").removeClass("checked");
+				$(this).find("a").addClass("checked");
+				//获取shareId
+				var shareId = $(this).data("shareId");
+				//发送ajax
+				$.ajax({
+					url: base_path+"/note/load_share.do",
+					type: "post",
+					data: {"shareId":shareId},
+					dataType: "json",
+					success:function (result) {
+						if (result.status==0){
+							var title =result.data.cn_share_title;
+							var body =result.data.cn_share_body;
+							//设置标题和设置body
+							$("#noput_note_title").html(title);
+							$("#noput_note_title").next().html(body);
+							//切换显示
+							$("#pc_part_5").show();
+							$("#pc_part_3").hide();
+						}
+					},
+					error:function () {
+						alert("查询笔记详情异常")
+					}
+				})
+			})
 		});
+
+
 	</script>
 
-	</body>		
+	</body>
 </html>
